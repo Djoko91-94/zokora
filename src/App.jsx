@@ -7,6 +7,21 @@ import Card from './components/Card';
 import SkillBars from './components/SkillBars'
 
 function App() {
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    if (name && password) {
+      setIsLoggedIn(true)
+      alert(`Welcome ${name}!`)
+    }
+  }
+
+  const toggleShowPassword = () => setShowPassword((prev) => !prev)
+
   return (
     <>
       <header class="w-full bg-gray-800 text-white py-4 shadow-md">
@@ -88,7 +103,45 @@ function App() {
             <h2 class="text-3xl font-serif">Ready to become an awesome programmer?</h2>
             <h3 class="text-xl font-light mb-6 font-serif">Let's learn to code, learn to be creative!</h3>
           </div>
-          <a href="https://progate.com/dashboard" class="btn bg-green-600 text-white py-2 px-6 rounded-md inline-block hover:brightness-90 hover:shadow-lg items-center gap-2 duration-300 font-serif">Start Learning</a>
+
+          {!isLoggedIn ? (
+            <form onSubmit={handleLogin} class="max-w-md mx-auto mb-8 p-6 bg-white rounded-lg shadow-md">
+              <h3 class="text-2xl font-serif mb-6 text-gray-800">Login</h3>
+              <div class="mb-4">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-serif"
+                />
+              </div>
+              <div class="mb-6 relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-serif"
+                />
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                >
+                  <span className={showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'}></span>
+                </button>
+              </div>
+              <button type="submit" class="btn bg-blue-600 text-white py-2 px-6 rounded-md inline-block hover:brightness-90 hover:shadow-lg transition duration-300 font-serif">
+                Start Learning
+              </button>
+            </form>
+          ) : (
+            <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+              <p class="text-xl font-serif text-gray-800 mb-4">Logged in as: <strong>{name}</strong></p>
+            </div>
+          )}
+
         </div>
       </div>
 
